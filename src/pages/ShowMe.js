@@ -1,3 +1,5 @@
+// taken from outside sources, not part of the course, just a fun project to show off some skills and creativity
+
 import ParticlePortrait from "../components/ParticlePortrait";
 import {
   FaInstagram,

@@ -1,6 +1,6 @@
 import { ImCross } from "react-icons/im";
 import { useContext } from "react";
-import CartContext from "../context/Cart";
+import CartContext from "../context/cart";
 import {useNavigate} from 'react-router-dom'
 import Button from '../components/Button'
 function CartShowItems({ item }) {

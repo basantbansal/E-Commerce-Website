@@ -1,12 +1,11 @@
 
 import { useEffect, useState, useContext } from "react";
-import CartContext from "../context/Cart";
+import CartContext from "../context/cart";
 // import NavigationContext from '../context/navigation';
 import PopUp from "../components/PopUp";
 import fetchItems from '../api';
 import HomeShowItems from './HomeShowItems';
 import {useNavigate} from 'react-router-dom';
-
 
 function HomePage() {
   const navigate = useNavigate();

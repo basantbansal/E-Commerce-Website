@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import CartContext from "../context/Cart";
+import CartContext from "../context/cart";
 import Button from "../components/Button";
 
 function BillingPage({ showSuccess }) {

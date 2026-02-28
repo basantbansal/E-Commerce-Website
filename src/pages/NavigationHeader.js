@@ -4,6 +4,7 @@ import { MdOutlineInventory } from "react-icons/md";
 import Icon from "../components/Icon";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/Logo.svg";
+import { FaCubes } from "react-icons/fa";
 
 function NavigationHeader() {
   const navigate = useNavigate();
@@ -44,6 +45,14 @@ function NavigationHeader() {
           >
             <MdOutlineInventory className="text-xl" />
             <span className="font-semibold">Purchased</span>
+          </Icon>
+          <Icon
+            onClick={handleClick("/spline")}
+            className="flex items-center gap-2 text-gray-700 
+                       hover:text-purple-600 transition cursor-pointer"
+          >
+            <FaCubes className="text-xl" />
+            <span className="font-semibold">3D View</span>
           </Icon>
         </div>
 

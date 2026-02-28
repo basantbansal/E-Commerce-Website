@@ -1,7 +1,7 @@
 import { useParams,useNavigate } from "react-router-dom";
 import { useEffect, useState,useContext } from "react";
 import { fetchItemById } from "../api";
-import CartContext from "../context/Cart";
+import CartContext from "../context/cart";
 import PopUp from "../components/PopUp";
 import Button from "../components/Button";
 import PurchasedContext from '../context/Purchased';
@@ -15,7 +15,7 @@ function ItemDetails() {
   const { createItem,cartItems } = useContext(CartContext);
   const navigate = useNavigate();
 
-  const isInCart =
+  const isInCart = 
   item && cartItems.some(cartItem => cartItem.id === item.id);
 
 

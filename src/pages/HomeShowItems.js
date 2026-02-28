@@ -1,5 +1,5 @@
 import Button from "../components/Button";
-import CartContext from "../context/Cart";
+import CartContext from "../context/cart";
 import {useContext }from 'react';
 import {useNavigate} from 'react-router-dom'
 

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import CartContext from "../context/Cart";
+import CartContext from "../context/cart";
 import CartShowItems from "./CartShowItems";
 import BillingPage from "./BillingPage";
 import PopUp from "../components/PopUp";

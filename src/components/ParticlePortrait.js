@@ -4,6 +4,7 @@
 import React, { useRef, useEffect, useState } from "react";
 
 const ParticlePortrait = () => {
+  
   const canvasRef = useRef(null);
   const mouseRef = useRef({ x: -1000, y: -1000, active: false });
   const linesRef = useRef([]);
