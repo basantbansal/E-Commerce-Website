@@ -1,21 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import './index.css';
-// import { NavigationProvider } from './context/navigation'; using the react router now :) 
-import { CartProvider } from './context/cart';
-import { BrowserRouter } from "react-router-dom";
-import {PurchasedProvider} from './context/Purchased';
+import React from "react"
+import ReactDOM from "react-dom/client"
+import App from "./App"
+import "./index.css"
+import { BrowserRouter } from "react-router-dom"
+import { CartProvider } from "./context/cart"
+import { PurchasedProvider } from "./context/Purchased"
+import { UserProvider } from "./context/user"
 
-const el = document.getElementById('root');
-const root = ReactDOM.createRoot(el);
-
-root.render(
-    <PurchasedProvider>
-        <CartProvider>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </CartProvider>
-    </PurchasedProvider>
-);
+ReactDOM.createRoot(document.getElementById("root")).render(
+    <BrowserRouter>
+        <UserProvider>
+            <PurchasedProvider>
+                <CartProvider>
+                    <App />
+                </CartProvider>
+            </PurchasedProvider>
+        </UserProvider>
+    </BrowserRouter>
+)

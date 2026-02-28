@@ -24,3 +24,10 @@ export async function fetchItemById(id) {
 
 
 export default fetchItems;
+
+// api.js 
+
+export const api = axios.create({
+    baseURL: "http://localhost:8000",
+    withCredentials: true
+})
