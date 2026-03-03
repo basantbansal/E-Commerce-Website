@@ -10,6 +10,7 @@ import SplinePage from "./pages/SplinePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage"
+// import Portfolio from "./pages/Portfolio";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/spline" element={<SplinePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        {/* <Route path="/ShowMe" element={<ShowMe />} /> */}
       </Routes>
     </>
   );
