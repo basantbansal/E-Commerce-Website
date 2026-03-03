@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Button from "../components/Button";
 import { api } from "../api.js"
+import { Link } from "react-router-dom"
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -127,9 +128,9 @@ function RegisterPage() {
 
           <p className="text-sm text-center text-gray-500">
             Already have an account?{" "}
-            <a href="/login" className="text-blue-500 hover:underline font-medium">
+            <Link to="/login" className="text-blue-500 hover:underline font-medium">
               Login
-            </a>
+            </Link>
           </p>
         </div>
       </div>
