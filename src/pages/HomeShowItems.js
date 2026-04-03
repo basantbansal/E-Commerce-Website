@@ -16,6 +16,7 @@ const navigate = useNavigate();
     }
 
     const items = currItems.map(item => {
+      console.log(item);
         const existing = cartItems.find(prev=>prev.id===item.id);
         return (
           <div
@@ -24,7 +25,7 @@ const navigate = useNavigate();
           >
             <img
             onClick = {()=>handleClickImage(item)}
-              src={item.image}
+              src={item.thumbnail || item.images?.[0]}
               alt={item.title}
               className="w-full h-32 object-contain mb-2 cursor-pointer"
             />
