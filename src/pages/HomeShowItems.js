@@ -16,7 +16,6 @@ const navigate = useNavigate();
     }
 
     const items = currItems.map(item => {
-      console.log(item);
         const existing = cartItems.find(prev=>prev.id===item.id);
         return (
           <div
