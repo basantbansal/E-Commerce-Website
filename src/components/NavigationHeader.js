@@ -90,7 +90,7 @@ function NavigationHeader() {
 
                     {/* Logo */}
                         <a 
-                            href="https://www.youtube.com" 
+                            href="https://portfolio-theta-five-tz0auun8g4.vercel.app" 
                             target="_blank" 
                             rel="noreferrer"
                             className="cursor-pointer select-none"
