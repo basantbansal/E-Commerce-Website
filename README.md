@@ -1,65 +1,74 @@
-# E-commerce Project Documentation
+# Frontend Documentation
 
-## Project Overview
-This E-commerce project is designed to provide a comprehensive online shopping experience. It allows users to browse products, add them to a cart, and complete the checkout process seamlessly.
+## Getting Started
 
-## Features
-- User authentication
-- Product browsing
-- Shopping cart functionality
-- Secure checkout process
-- Order history and tracking
-- Responsive design for mobile and desktop
+To get started with the project, clone the repository and install the required dependencies:
 
-## Technology Stack
-- **Frontend:** React.js, Redux
-- **Backend:** Node.js, Express
-- **Database:** MongoDB
-- **Styling:** CSS, Bootstrap
-- **Deployment:** Heroku / AWS
-
-## Installation Instructions
-1. Clone the repository: `git clone https://github.com/basantbansal/Ecommerce_website_frontend.git`
-2. Navigate to the project directory: `cd Ecommerce_website_frontend`
-3. Install dependencies: `npm install`
-4. Start the development server: `npm start`
-
-## Usage
-Visit `http://localhost:3000` in your browser after starting the server to view the application.
+```bash
+git clone https://github.com/basantbansal/Ecommerce_website_frontend.git
+cd Ecommerce_website_frontend
+npm install
+```
 
 ## Project Structure
+
+The project structure is organized as follows:
+
 ```
 Ecommerce_website_frontend/
-|-- src/
-|   |-- components/
-|   |-- pages/
-|   |-- redux/
-|   |-- App.js
-|   |-- index.js
-|-- public/
-|-- package.json
+├── src/
+│   ├── components/
+│   ├── styles/
+│   ├── utils/
+│   └── App.js
+├── public/
+│   └── index.html
+└── package.json
 ```
 
-## Available Scripts
-- `npm start`: Starts the development server.
-- `npm build`: Builds the app for production.
+## Key Features
+- User authentication
+- Product listing
+- Cart functionality
+- Payment processing
 
-## Dependencies
-- React
+## Technology Stack
+- React.js
 - Redux
-- Axios
-- Express (Backend)
-- Mongoose (Database)
+- CSS modules
+- Node.js
+
+## Available Scripts
+- `npm start`: Launches the development server.
+- `npm run build`: Builds the project for production.
+
+## Styling & UI Components
+The project uses CSS modules for styling components to ensure that styles are scoped locally.
+
+## Frontend Integration
+The frontend integrates with a backend API for data fetching and state management.
+
+## Responsive Design
+The application is designed to be responsive and should work well on various screen sizes.
+
+## Environment Configuration
+Environment variables can be configured in a `.env` file at the root of the project to manage API endpoints and application settings.
+
+## Development Guidelines
+1. Follow the file structure for components.
+2. Use functional components with hooks whenever possible.
+3. Ensure your code is well-documented.
 
 ## Contributing Guidelines
+We welcome contributions! Please follow these guidelines:
 1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/YourFeature`).
-3. Make your changes and commit them (`git commit -m 'Add some feature'`).
-4. Push your branch (`git push origin feature/YourFeature`).
-5. Open a Pull Request.
+2. Create a new branch for your feature or bug fix.
+3. Open a pull request detailing your changes.
 
 ## License
 This project is licensed under the MIT License.
 
-## Support
-For support, please open an issue in the repository or contact the maintainers directly.
+## Author Information
+This project is maintained by [Basant Bansal](https://github.com/basantbansal).
+
+---
