@@ -38,7 +38,15 @@ function ItemDetails() {
       await createItem(item);
       setShowPopup("✅ Item added to cart");
     } catch (error) {
-      setShowPopup(error.response?.data?.message || "Unable to add item to cart");
+      setShowPopup(
+        error.response?.status === 401
+          ? "Please login to perform this action"
+          : error.response?.data?.message || "Unable to add item to cart"
+      );
+
+      if (error.response?.status === 401) {
+        setTimeout(() => navigate("/login"), 1000);
+      }
     }
   };
   

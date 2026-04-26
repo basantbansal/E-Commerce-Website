@@ -41,6 +41,34 @@ export const importDummyProducts = async () => {
   return await api.post("/api/v1/products/import-dummy-products");
 };
 
+export const getCart = async () => {
+  return await api.get("/api/v1/cart");
+};
+
+export const addCartItem = async (productId) => {
+  return await api.post("/api/v1/cart/items", { productId });
+};
+
+export const updateCartItem = async (productId, change) => {
+  return await api.patch(`/api/v1/cart/items/${productId}`, { change });
+};
+
+export const removeCartItem = async (productId) => {
+  return await api.delete(`/api/v1/cart/items/${productId}`);
+};
+
+export const clearCartApi = async () => {
+  return await api.delete("/api/v1/cart");
+};
+
+export const getOrders = async () => {
+  return await api.get("/api/v1/orders");
+};
+
+export const createOrder = async (items) => {
+  return await api.post("/api/v1/orders", { items });
+};
+
 const fetchItems = async ({ forceRefresh = false } = {}) => {
   if (cachedProducts && !forceRefresh) return cachedProducts;
 

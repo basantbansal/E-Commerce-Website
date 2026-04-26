@@ -23,7 +23,14 @@ function HomePage() {
       await createItem(item);
       setShowPopup("✅ Item added to cart");
     } catch (fetchError) {
-      setShowPopup(fetchError.response?.data?.message || "Unable to add this item to cart");
+      const message = fetchError.response?.status === 401
+        ? "Please login to perform this action"
+        : fetchError.response?.data?.message || "Unable to add this item to cart";
+      setShowPopup(message);
+
+      if (fetchError.response?.status === 401) {
+        setTimeout(() => navigate("/login"), 1000);
+      }
     }
   };
 

@@ -1,53 +1,74 @@
-import { createContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createOrder, getOrders } from "../api";
+import { useUser } from "./user";
 
 const PurchasedContext = createContext();
 
 export function PurchasedProvider({ children }) {
+  const { user, isLoadingUser } = useUser();
   const [purchases, setPurchases] = useState([]);
-  const isPurchasesLoading = false;
+  const [isPurchasesLoading, setIsPurchasesLoading] = useState(false);
 
-  const buildGuestPurchase = (cartItems) => {
-    const totalAmount = cartItems.reduce(
-      (sum, item) => sum + item.price * (item.quantity || 1),
-      0
-    );
-
-    return {
-      id: crypto.randomUUID(),
-      time: new Date().toISOString(),
-      items: cartItems.map((item) => ({
-        ...item,
-        productId: item._id || item.productId || item.id,
-        quantity: item.quantity || 1,
-      })),
-      total: totalAmount,
-      status: "placed",
-    };
-  };
-
-  const prependPurchase = (purchase) => {
-    setPurchases((prev) => [
-      purchase,
-      ...prev.filter((existingPurchase) => existingPurchase.id !== purchase.id),
-    ]);
-  };
-
-  const refreshPurchases = async () => purchases;
-
-  const purchaseItems = async (cartItems) => {
-    const normalizedItems = cartItems.map((item) => ({
-      ...item,
-      productId: item._id || item.productId || item.id,
-      quantity: item.quantity || 1,
+  const formatOrders = useCallback((orders) => {
+    return (orders || []).map((order) => ({
+      id: order._id,
+      time: order.createdAt,
+      total: order.total,
+      status: order.status,
+      items: (order.items || [])
+        .filter((item) => item.product)
+        .map((item) => ({
+          ...item.product,
+          productId: item.product._id,
+          quantity: item.quantity,
+          price: item.price
+        }))
     }));
+  }, []);
 
-    if (!normalizedItems.length) {
-      return null;
+  const loadPurchases = useCallback(async () => {
+    if (!user) {
+      setPurchases([]);
+      return [];
     }
 
-    const purchase = buildGuestPurchase(normalizedItems);
-    prependPurchase(purchase);
-    return purchase;
+    setIsPurchasesLoading(true);
+
+    try {
+      const response = await getOrders();
+      const formattedOrders = formatOrders(response.data.data);
+      setPurchases(formattedOrders);
+      return formattedOrders;
+    } finally {
+      setIsPurchasesLoading(false);
+    }
+  }, [user, formatOrders]);
+
+  useEffect(() => {
+    if (isLoadingUser) return;
+
+    if (!user) {
+      setPurchases([]);
+      return;
+    }
+
+    loadPurchases();
+  }, [user, isLoadingUser, loadPurchases]);
+
+  const purchaseItems = async (items) => {
+    const orderItems = items?.map((item) => ({
+      productId: item._id || item.productId || item.id,
+      quantity: item.quantity || 1
+    }));
+    const response = await createOrder(orderItems);
+    const order = formatOrders([response.data.data])[0];
+
+    setPurchases((prev) => [
+      order,
+      ...prev.filter((existingPurchase) => existingPurchase.id !== order.id),
+    ]);
+
+    return order;
   };
 
   return (
@@ -55,8 +76,7 @@ export function PurchasedProvider({ children }) {
       value={{
         purchases,
         purchaseItems,
-        prependPurchase,
-        refreshPurchases,
+        loadPurchases,
         isPurchasesLoading,
       }}
     >
@@ -66,3 +86,4 @@ export function PurchasedProvider({ children }) {
 }
 
 export default PurchasedContext;
+export const usePurchased = () => useContext(PurchasedContext);

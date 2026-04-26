@@ -1,68 +1,87 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import PurchasedContext from "./Purchased";
+import { addCartItem, getCart, removeCartItem, updateCartItem } from "../api";
+import { useUser } from "./user";
 
 const CartContext = createContext();
 
 function CartProvider({ children }) {
   const { purchaseItems } = useContext(PurchasedContext);
+  const { user, isLoadingUser } = useUser();
   const [cartItems, setCartItems] = useState([]);
-  const isCartLoading = false;
+  const [isCartLoading, setIsCartLoading] = useState(false);
 
   const getProductId = (item) => {
     return item._id || item.productId || item.id;
   };
 
-  const loadCart = async () => cartItems;
+  const formatCartItems = useCallback((cart) => {
+    return (cart?.items || [])
+      .filter((item) => item.product)
+      .map((item) => ({
+        ...item.product,
+        productId: item.product._id,
+        quantity: item.quantity,
+      }));
+  }, []);
+
+  const updateCartState = useCallback((response) => {
+    const formattedItems = formatCartItems(response.data.data);
+    setCartItems(formattedItems);
+    return formattedItems;
+  }, [formatCartItems]);
+
+  const loadCart = useCallback(async () => {
+    if (!user) {
+      setCartItems([]);
+      return [];
+    }
+
+    setIsCartLoading(true);
+
+    try {
+      const response = await getCart();
+      return updateCartState(response);
+    } finally {
+      setIsCartLoading(false);
+    }
+  }, [user, updateCartState]);
+
+  useEffect(() => {
+    if (isLoadingUser) return;
+
+    if (!user) {
+      setCartItems([]);
+      return;
+    }
+
+    loadCart();
+  }, [user, isLoadingUser, loadCart]);
 
   // add / create item
   const createItem = async (item) => {
     const productId = getProductId(item);
-
-    setCartItems((prev) => {
-      const existing = prev.find(
-        (cartItem) => getProductId(cartItem) === productId
-      );
-
-      if (existing) {
-        return prev.map((cartItem) =>
-          getProductId(cartItem) === productId
-            ? { ...cartItem, quantity: (cartItem.quantity || 1) + 1 }
-            : cartItem
-        );
-      }
-
-      return [...prev, { ...item, productId, quantity: 1 }];
-    });
+    const response = await addCartItem(productId);
+    return updateCartState(response);
   };
 
   // increase / decrease
   const itemIOD = async (item, x) => {
     const productId = getProductId(item);
-
-    setCartItems((prev) =>
-      prev
-        .map((currItem) => {
-          if (getProductId(currItem) === productId) {
-            return { ...currItem, quantity: (currItem.quantity || 1) + x };
-          }
-          return currItem;
-        })
-        .filter((currItem) => currItem.quantity > 0)
-    );
+    const response = await updateCartItem(productId, x);
+    return updateCartState(response);
   };
 
   // delete item
   const deleteEvent = async (item) => {
     const productId = getProductId(item);
-
-    setCartItems((prev) =>
-      prev.filter((cartItem) => getProductId(cartItem) !== productId)
-    );
+    const response = await removeCartItem(productId);
+    return updateCartState(response);
   };
 
   // purchase + clear cart
   const clearCart = async () => {
-    const order = await purchaseItems(cartItems);
+    const order = await purchaseItems();
 
     setCartItems([]);
     return order;
